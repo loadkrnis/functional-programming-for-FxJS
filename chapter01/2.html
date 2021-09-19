@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			console.log('-- Array --');
+			const arr = [1, 2, 3];
+			// arr[Symbol.iterator] = null;
+			for (const i of arr) console.log(i);
+
+			console.log('-- Set --');
+			const set = new Set([1, 2, 3]);
+			for (const i of set) console.log(i);
+
+			console.log('-- Map --');
+			const map = new Map([
+				['a', 1],
+				['b', 2],
+				['c', 3],
+			]);
+			for (const i of map) console.log(i);
+			for (const i of map.keys()) console.log(i);
+			for (const i of map.values()) console.log(i);
+			for (const i of map.entries()) console.log(i);
+		</script>
+		<pre>
+      ## 이터러블/이터레이터 프로토콜
+      - 이터러블: 이터레이터를 리턴하는 [Symbol.iterator]() 를 가진 값
+      - 이터레이터: { value, done } 객체를 리턴하는 next() 를 가진 값
+      - 이터러블/이터레이터 프로토콜: 이터러블을 for...of, 전개 연산자(...operator) 등과 함께 동작하도록한 규약
+      기존의 순회는 length에 의존하여 순회하는 방식     
+    </pre>
+	</body>
+</html>
