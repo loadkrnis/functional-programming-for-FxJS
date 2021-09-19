@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>odds</title>
+	</head>
+	<body>
+		<pre>
+      제너레이터를 활용하여 홀수만 발생시키는 이터레이터를 만들어 순회하는 예제
+    </pre>
+		<script>
+			// 무한의 값을 생성하는 제너레이터
+			// 평가할 때만 코드가 작동되기 때문에 에러없이 사용 가능합니다.
+			function* infinity(start = 0) {
+				while (true) yield start++;
+			}
+
+			function* limit(limit, iter) {
+				for (const i of iter) {
+					yield i;
+					if (i === limit) return;
+				}
+			}
+
+			function* odds(l) {
+				for (const i of limit(l, infinity(1))) {
+					if (i % 2) yield i;
+					if (i === limit) return;
+				}
+			}
+
+			const iter = odds(10);
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+
+			for (const a of odds(40)) console.log(a);
+		</script>
+	</body>
+</html>
