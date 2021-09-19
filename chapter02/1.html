@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>제너레이터와 이터레이터</title>
+	</head>
+	<body>
+		<pre>
+      - 제너레이터: 이터레이터이자 이터러블을 생헝하는 함수
+    </pre>
+		<script>
+			// 일반 함수에서 *을 붙여 제너레이터 함수를 선언합니다.
+			// 그리고 제너레이터는 이터레이터를 반환합니다.
+			function* gen() {
+				yield 1;
+				yield 2;
+				yield 3;
+				return 100;
+			}
+
+			const iter = gen();
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+
+			// gen()을 통해 받아온 iterator는 iterator이자 iterable이기도 합니다.
+			// gen()의 iterator의 평가는 본인(this)과 같습니다.
+			console.log(iter[Symbol.iterator]() === iter);
+
+			// 제너레이터 함수의 문장을 통해 순회할 수 있는 값을 만드는 것은 어떠한 값도 순회할 수 있도록 조작할 수 있습니다.
+		</script>
+	</body>
+</html>
