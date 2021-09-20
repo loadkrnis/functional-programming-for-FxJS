@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>for...of, 전개 연산자, 구조 분해, 나머지 연산</title>
+	</head>
+	<body>
+		<pre>
+      자바스크립트에서 이터러블 프로토콜을 따르고 있는 문법 정리
+    </pre>
+		<script>
+			function* infinity(start = 0) {
+				while (true) yield start++;
+			}
+
+			function* limit(limit, iter) {
+				for (const i of iter) {
+					yield i;
+					if (i === limit) return;
+				}
+			}
+
+			function* odds(l) {
+				for (const i of limit(l, infinity(1))) {
+					if (i % 2) yield i;
+					if (i === limit) return;
+				}
+			}
+
+			// 전개 연산자
+			console.log(...odds(10));
+			console.log([...odds(10), ...odds(20)]);
+
+			// 구조 분해
+			const [head, ...tail] = odds(5);
+			console.log(head);
+			console.log(tail);
+
+			const [a, b, ...rest] = odds(10);
+			console.log(a);
+			console.log(b);
+			console.log(rest);
+		</script>
+	</body>
+</html>
