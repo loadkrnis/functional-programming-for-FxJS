@@ -39,7 +39,9 @@
 
 			// 커스텀 맵을 이용한 Set형 다루기
 			const s = new Set(['a', 'b', 'c', 'd', 'e']);
-			console.log(map((v) => v + v, s));
+			console.log(s);
+			const newSet = new Set(map((v) => v + v, s));
+			console.log(newSet);
 		</script>
 	</body>
 </html>
