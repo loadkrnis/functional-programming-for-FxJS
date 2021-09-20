@@ -38,6 +38,15 @@
 
 			// 커스텀 map
 			console.log(map((p) => p.name, products));
+
+			// 상품들의 가격을 전부 50% 할인된 값
+			console.log(
+				map((p) => {
+					const res = p;
+					res.price /= 2;
+					return res;
+				}, products)
+			);
 		</script>
 	</body>
 </html>
