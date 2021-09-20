@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>filter</title>
+	</head>
+	<body>
+		<pre>
+      # filter
+    </pre>
+		<script>
+			const products = [
+				{ name: '반팔티', price: 15000 },
+				{ name: '긴팔티', price: 20000 },
+				{ name: '휴대폰케이스', price: 15000 },
+				{ name: '후드티', price: 30000 },
+				{ name: '바지', price: 25000 },
+			];
+
+			// 기존의 명령형 코드로 filter
+			const under20000 = [];
+			for (const p of products) {
+				if (p.price < 20000) under20000.push(p);
+			}
+			console.log(...under20000);
+
+			// 커스텀 filter
+			const filter = (f, iter) => {
+				const res = [];
+				for (i of iter) {
+					if (f(i)) res.push(i);
+				}
+				return res;
+			};
+
+			console.log(...filter((p) => p.price < 20000, products));
+			console.log(...filter((p) => p.price >= 20000, products));
+		</script>
+	</body>
+</html>
