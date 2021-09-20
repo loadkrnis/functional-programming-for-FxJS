@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>이터러블 프로토콜을 따른 map의 다형성 1</title>
+	</head>
+	<body>
+		<pre>
+      이터러블 프로토콜을 따른 map의 다형성 1
+    </pre>
+		<script>
+			// 함수형 프로그래밍에서는 외부 값을 변경하지 않고 새로 생성된 결과를 반환합니다.
+			// 아래의 map 함수는 첫번째 인자로 function을 받아 내부에서 사용하는 고차함수 입니다.
+			const map = (f, iter) => {
+				const res = [];
+				for (const p of iter) {
+					res.push(f(p));
+				}
+				return res;
+			};
+
+			// 아래와 같이 querySelector는 이터러블 프로토콜을 따르기 때문에 커스텀 map 함수가 작동된다.
+			console.log(
+				map((element) => element.nodeName, document.querySelectorAll('*'))
+			);
+
+			// 이터러블 검증
+			const iter = document.querySelectorAll('*')[Symbol.iterator]();
+			console.log(iter);
+			console.log(iter.next());
+			console.log(iter.next());
+			console.log(iter.next());
+
+			function* gen() {
+				yield 2;
+				yield 3;
+				yield 4;
+			}
+			console.log(map((a) => a * a, gen()));
+		</script>
+	</body>
+</html>
