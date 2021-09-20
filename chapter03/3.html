@@ -36,6 +36,10 @@
 			// 커스텀 맵을 이용한 구조 분해
 			const newMap = new Map(map(([k, a]) => [k, a * a], m));
 			console.log(newMap);
+
+			// 커스텀 맵을 이용한 Set형 다루기
+			const s = new Set(['a', 'b', 'c', 'd', 'e']);
+			console.log(map((v) => v + v, s));
 		</script>
 	</body>
 </html>
