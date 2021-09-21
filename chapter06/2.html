@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>range와 느긋한 L.range 테스트</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<script>
+			const add = (a, b) => a + b;
+
+			const range = (l) => {
+				let i = -1;
+				const res = [];
+				while (++i < l) {
+					res.push(i);
+				}
+				return res;
+			};
+
+			// 느긋한 L.range
+			const L = {};
+			L.range = function* (l) {
+				let i = -1;
+				while (++i < l) {
+					yield i;
+				}
+			};
+		</script>
+
+		<script>
+			const test = (name, time, f) => {
+				console.time(name);
+				while (time--) f();
+				console.timeEnd(name);
+			};
+
+			test('range', 10, () => reduce(add, range(1000000))); // 389.6220703125 ms
+			test('L.range', 10, () => reduce(add, L.range(1000000))); // 252.65771484375 ms
+		</script>
+	</body>
+</html>
