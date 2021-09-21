@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>함수 조합으로 함수 만들기</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+      # 함수 조합으로 함수 만들기
+    </pre>
+		<script>
+			const products = [
+				{ name: '반팔티', price: 15000 },
+				{ name: '긴팔티', price: 20000 },
+				{ name: '휴대폰케이스', price: 15000 },
+				{ name: '후드티', price: 30000 },
+				{ name: '바지', price: 25000 },
+			];
+			const add = (a, b) => a + b;
+
+			// 아래와 같이 함수를 작게 모듈화가 가능합니다.
+			const total_price = pipe(
+				map((p) => p.price),
+				reduce(add)
+			);
+			const base_total_price = (predi) => pipe(filter(predi), total_price);
+
+			go(
+				products,
+				base_total_price((p) => p.price < 20000),
+				console.log
+			);
+
+			go(
+				products,
+				base_total_price((p) => p.price >= 20000),
+				console.log
+			);
+		</script>
+	</body>
+</html>
