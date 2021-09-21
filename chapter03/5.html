@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>reduce</title>
+	</head>
+	<body>
+		<pre>
+      # reduce
+    </pre>
+		<script>
+			// 기존의 명령형 코드로 작성한 reduce
+			const nums = [1, 2, 3, 4, 5];
+			let total = 0;
+			for (n of nums) {
+				total += n;
+			}
+			console.log(total);
+
+			const reduce = (f, acc, iter) => {
+				// iter 값이 안들어 왔을 때 or acc 값이 지정되지 않았을 때
+				if (!iter) {
+					iter = acc[Symbol.iterator]();
+					acc = iter.next().value;
+				}
+				for (i of iter) {
+					acc = f(acc, i);
+				}
+				return acc;
+			};
+			console.log(reduce((a, b) => a + b, 0, [1, 2, 3, 4, 5]));
+			console.log(reduce((a, b) => a + b, [1, 2, 3, 4, 5]));
+		</script>
+	</body>
+</html>
