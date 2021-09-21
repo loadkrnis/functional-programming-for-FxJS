@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>pipe</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+      # pipe
+    </pre>
+		<script>
+			// 코드를 값으로 다루어 표현력 높이기
+			// go()는 인자를 받아서 즉시 인자와 함수들을 평가합니다.
+			const go = (...args) => reduce((a, f) => f(a), args);
+
+			go(
+				0,
+				(a) => a + 1,
+				(a) => a + 10,
+				(a) => a + 100,
+				console.log
+			);
+
+			// pipe()는 go함수와는 다르게 함수가 나열되어 있는 합성된 함수를 반환합니다.
+			const pipe =
+				(f, ...fs) =>
+				(...as) =>
+					go(f(...as), ...fs);
+			const f = pipe(
+				(a, b) => a + b,
+				(a) => a + 10,
+				(a) => a + 100
+			);
+			console.log(f);
+			console.log(f(0, 1));
+		</script>
+	</body>
+</html>
