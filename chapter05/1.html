@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>총 수량, 총 가격</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+      # 총 수량, 총 가격
+    </pre>
+		<div id="cart"></div>
+		<script>
+			const products = [
+				{ name: '반팔티', price: 15000, quantity: 1 },
+				{ name: '긴팔티', price: 20000, quantity: 2 },
+				{ name: '휴대폰케이스', price: 15000, quantity: 3 },
+				{ name: '후드티', price: 30000, quantity: 4 },
+				{ name: '바지', price: 25000, quantity: 5 },
+			];
+
+			const add = (a, b) => a + b;
+
+			// sum()의 추상화가 높은 함수로 만들기 위해 curry()로 씌어준다.
+			const sum = curry((f, iter) => go(iter, map(f), reduce(add)));
+
+			console.log(sum((p) => p.quantity, products));
+			console.log(sum((p) => p.quantity * p.price, products));
+
+			const total_quantity = sum((p) => p.quantity);
+
+			console.log(total_quantity(products));
+
+			const total_price = pipe(
+				map((p) => p.price * p.quantity),
+				reduce(add)
+			);
+
+			console.log(total_price(products));
+		</script>
+	</body>
+</html>
