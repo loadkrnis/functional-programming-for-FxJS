@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>map+filter+reduce 중첩 사용과 함수형 사고</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+      # map+filter+reduce 중첩 사용과 함수형 사고
+    </pre>
+		<script>
+			const products = [
+				{ name: '반팔티', price: 15000 },
+				{ name: '긴팔티', price: 20000 },
+				{ name: '휴대폰케이스', price: 15000 },
+				{ name: '후드티', price: 30000 },
+				{ name: '바지', price: 25000 },
+			];
+
+			// 가격만 뽑기
+			console.log(map((p) => p.price, products));
+
+			// 특정 금액이하의 상품의 가격만 뽑기
+			// 1번
+			console.log(
+				filter(
+					(p) => p < 20000,
+					map((p) => p.price, products)
+				)
+			);
+			// 2번
+			console.log(
+				map(
+					(p) => p.price,
+					filter((p) => p.price < 20000, products)
+				)
+			);
+
+			// 2만원 미만의 상품들의 가격 합
+			// 1번
+			console.log(
+				reduce(
+					(total, p) => total + p.price,
+					0,
+					filter((p) => p.price < 20000, products)
+				)
+			);
+			// 2번
+			const add = (a, b) => a + b;
+			console.log(
+				reduce(
+					add,
+					map(
+						(p) => p.price,
+						filter((p) => p.price < 20000, products)
+					)
+				)
+			);
+			// 함수형 프로그래밍에서 단계 by 단계를 거치며 인자에 들어올 값(기대값)을 추론하며 코드를 작성하면 도움이 됩니다.
+		</script>
+	</body>
+</html>
