@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>L.filter</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+			# 이터러블 중심 프로그래밍에서의 지연 평가 (Lazy Evaludation)
+			- 제때 계산법
+			- 느긋한 계산법
+			- 제너레이터/이터레이터 프로토콜을 기반으로 구현
+		</pre
+		>
+		<script>
+			const add = (a, b) => a + b;
+
+			const range = (l) => {
+				let i = -1;
+				const res = [];
+				while (++i < l) {
+					res.push(i);
+				}
+				return res;
+			};
+
+			// 느긋한 L.range
+			const L = {};
+			L.range = function* (l) {
+				let i = -1;
+				while (++i < l) {
+					yield i;
+				}
+			};
+
+			const take = curry((l, iter) => {
+				let res = [];
+				for (const a of iter) {
+					res.push(a);
+					if (res.length === l) return res;
+				}
+				return res;
+			});
+		</script>
+
+		<script>
+			// L.map
+			L.map = function* (f, iter) {
+				for (const a of iter) yield f(a);
+			};
+			// const it = L.map((a) => a + 10, [1, 2, 3]);
+			// console.log(it);
+			// console.log(it.next());
+			// console.log(it.next());
+			// console.log(it.next());
+		</script>
+
+		<script>
+			// L.filter
+			L.filter = function* (f, iter) {
+				for (const a of iter)
+					if (f(a)) {
+						yield a;
+					}
+			};
+
+			const it = L.filter((a) => a % 2, L.range(10));
+			console.log(it.next());
+			console.log(it.next());
+			console.log(it.next());
+			console.log(it.next());
+			console.log(it.next());
+		</script>
+	</body>
+</html>
