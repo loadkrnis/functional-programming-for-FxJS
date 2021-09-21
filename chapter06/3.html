@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>take</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<script>
+			const add = (a, b) => a + b;
+
+			const range = (l) => {
+				let i = -1;
+				const res = [];
+				while (++i < l) {
+					res.push(i);
+				}
+				return res;
+			};
+
+			// 느긋한 L.range
+			const L = {};
+			L.range = function* (l) {
+				let i = -1;
+				while (++i < l) {
+					yield i;
+				}
+			};
+		</script>
+
+		<script>
+			const take = curry((l, iter) => {
+				let res = [];
+				for (const a of iter) {
+					res.push(a);
+					if (res.length === l) return res;
+				}
+				return res;
+			});
+			console.log(take(5, range(10000)));
+			console.log(take(5, L.range(10000))); // 효율성이 더 좋습니다.
+
+			console.time('');
+			go(range(10000), take(5), console.log);
+			console.timeEnd('');
+
+			console.time('');
+			go(L.range(10000), take(5), console.log);
+			console.timeEnd('');
+
+			go(L.range(10000), take(5), reduce(add), console.log);
+		</script>
+	</body>
+</html>
