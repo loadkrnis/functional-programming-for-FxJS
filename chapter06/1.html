@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>range와 느긋한 L.range</title>
+		<script src="../lib/fx.js"></script>
+	</head>
+	<body>
+		<script>
+			const add = (a, b) => a + b;
+
+			const range = (l) => {
+				let i = -1;
+				const res = [];
+				while (++i < l) {
+					res.push(i);
+				}
+				return res;
+			};
+			let list1 = range(4);
+			console.log(list1);
+			go(list1, reduce(add), console.log);
+
+			// 느긋한 L.range
+			const L = {};
+			L.range = function* (l) {
+				let i = -1;
+				while (++i < l) {
+					yield i;
+				}
+			};
+			let list2 = L.range(4);
+			console.log(list2);
+			go(list2, reduce(add), console.log);
+		</script>
+		<pre>
+			range()와 L.range()의 차이점은
+			range()의 경우 배열이 생성돼 map, filter, reduce 등에 전달됐을 때 
+			함수 내부에서 배열로 이터레이터를 생성해 for...of 문을 돌게된다.
+			하지만 L.range()는 애초에 이터레이터이기 때문에 따로 생성없이 for...of문을 돌게된다.
+			즉, L.range()가 range()보다 더 효율적이다.
+		</pre
+		>
+	</body>
+</html>
