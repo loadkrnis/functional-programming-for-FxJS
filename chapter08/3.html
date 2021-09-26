@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>값으로서의 Promise 활용</title>
+		<script src="./lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+		# Promise 
+		</pre
+		>
+		일급 활용
+		<script>
+			const delay100 = (a) =>
+				new Promise((resolve) => setTimeout(() => resolve(a), 100));
+			const add5 = (a) => a + 5;
+
+			const n1 = 10;
+			go1(go1(n1, add5), console.log);
+
+			const n2 = delay100(10);
+			go1(go1(n2, add5), console.log);
+		</script>
+	</body>
+</html>
