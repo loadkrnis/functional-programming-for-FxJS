@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>callback과 Promise</title>
+		<script src="./lib/fx.js"></script>
+	</head>
+	<body>
+		# Promise ## 일급
+		<script>
+			function add10(a, callback) {
+				setTimeout(() => callback(a + 10), 100);
+			}
+
+			add10(5, (res) => {
+				console.log(res);
+			});
+
+			function add20(a) {
+				return new Promise((resolve) => setTimeout(() => resolve(a + 20), 100));
+			}
+
+			add20(20).then(console.log);
+
+			add20(5).then(add20).then(add20).then(add20).then(console.log);
+		</script>
+	</body>
+</html>
