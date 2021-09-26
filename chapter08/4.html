@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>합성 관점에서의 Promise와 모나드</title>
+		<script src="./lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+		# Promise 
+		</pre
+		>
+		Composition
+		<script>
+			const delay100 = (a) =>
+				new Promise((resolve) => setTimeout(() => resolve(a), 100));
+			const add5 = (a) => a + 5;
+		</script>
+		<script>
+			// 모나드는 함수 합성을 안전하게 하기위한 도구입니다.
+			// f.g => f(g(x))
+			// js에서 모나드를 직접적으로 만들면서 프로그래밍 하지는 않습니다.
+
+			const g = (a) => a + 1;
+			const f = (a) => a * a;
+
+			// 함수 합성
+			// 빈 값(검증되지 않은 값)이 들어와도 모든 함수가 실행되고 로그가 찍히게 됩니다.
+			console.log(f(g(1)));
+			console.log(f(g()));
+
+			// 모나드 형태의 Array로 map을 통해 함수를 합성하였을 때는
+			// 값이 없으면 실행되지 않습니다.
+			[1]
+				.map(g)
+				.map(f)
+				.forEach((r) => console.log(r));
+
+			[]
+				.map(g)
+				.map(f)
+				.forEach((r) => console.log(r));
+
+			// 중간에 필터를 두어서 일부의 값만 실행되게 할 수 있습니다.
+			[1, 2, 3]
+				.map(g)
+				.filter((a) => a % 2)
+				.map(f)
+				.forEach((r) => console.log(r));
+
+			// Promise의 모나드
+			Promise.resolve(1)
+				.then(g)
+				.then(f)
+				.then((r) => console.log(r));
+		</script>
+	</body>
+</html>
