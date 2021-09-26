@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>합성 관점에서의 Promise와 모나드</title>
+		<script src="./lib/fx.js"></script>
+	</head>
+	<body>
+		<pre>
+		# Promise 
+		Kleisli Composition 은 오류가 있을 수 있는 함수 합성을 완전하게 하는 하나의 규칙입니다.
+		</pre
+		>
+		<script>
+			// f.g
+			// f(g(x)) = f(g(x)), 어느 시점에 평가되어도 항상 값은 같습니다.
+			// 클레이슬리 Composition 은
+			// f(g(x)) = g(x)
+			// g(x)의 결과가 에러가 난 경우 f(g(x))와 g(x)의 결과를 같다고 봅니다.
+
+			var users = [
+				{ id: 1, name: 'aa' },
+				{ id: 2, name: 'bb' },
+				{ id: 3, name: 'cc' },
+			];
+
+			const getUserById = (id) =>
+				find((u) => u.id === id, users) || Promise.reject('없음');
+			const f = ({ name }) => name;
+			const g = getUserById;
+			const fg = (id) => f(g(id));
+
+			// 아래와 같은 오류상황에서는 대처가 불가능
+			console.log(fg(2) === fg(2));
+			console.log(fg(2));
+			// users.pop();
+			// users.pop();
+			// console.log(fg(2));
+
+			const newFG = (id) =>
+				Promise.resolve(id)
+					.then(g)
+					.then(f)
+					.catch((a) => a);
+			console.log(newFG(2) == newFG(2));
+			console.log(newFG(2).then(console.log));
+			users.pop();
+			users.pop();
+			console.log(newFG(2).then(console.log));
+		</script>
+	</body>
+</html>
