@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>go, pipe, reduce에서 비동기 제어</title>
+		<script src="./lib/fx.js"></script>
+	</head>
+	<body>
+		<pre></pre>
+		<script>
+			go(
+				1,
+				(a) => a + 10,
+				(a) => Promise.resolve(a + 100),
+				(a) => a + 1000,
+				console.log
+			);
+
+			go(
+				Promise.resolve(1),
+				(a) => a + 10,
+				(a) => Promise.resolve(a + 100),
+				(a) => a + 1001,
+				console.log
+			);
+
+			go(
+				Promise.resolve(1),
+				(a) => a + 10,
+				(a) => Promise.reject('error!!'),
+				(a) => a + 1001,
+				console.log
+			);
+		</script>
+	</body>
+</html>
