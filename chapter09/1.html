@@ -24,6 +24,14 @@
 				take(2),
 				console.log
 			);
+
+			// 시작과 중간 전부 프로미스로 전환
+			go(
+				[Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)],
+				L.map((a) => Promise.resolve(a + 10)),
+				take(2),
+				console.log
+			);
 		</script>
 	</body>
 </html>
