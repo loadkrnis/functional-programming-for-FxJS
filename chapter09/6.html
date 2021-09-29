@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>지연된 함수열을 병렬적으로 평가하기 - C.reduce, C.take</title>
+	</head>
+	<body>
+		<script src="./lib/fx.js"></script>
+		<script>
+			const C = {};
+			function noop() {}
+			const catchNoop = (arr) => (
+				arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
+			);
+
+			C.reduce = curry((f, acc, iter) => {
+				const iter2 = catchNoop(iter ? [...iter] : [...acc]);
+				return iter ? reduce(f, acc, iter2) : reduce(f, iter2);
+			});
+
+			C.take = curry((l, iter) => take(l, catchNoop([...iter])));
+
+			// 지연된 함수열을 병렬적으로 평가하기 - C.reduce, C.take
+			const delay500 = (a) => {
+				console.log('tick');
+				return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+			};
+
+			console.time('1');
+			go(
+				[1, 2, 3, 4, 5],
+				L.map((a) => delay500(a * a)),
+				L.filter((a) => delay500(a % 2)),
+				L.map((a) => delay500(a * a)),
+				C.reduce(add),
+				console.log,
+				(_) => console.timeEnd('1')
+			);
+
+			console.time('2');
+			go(
+				[1, 2, 3, 4, 5],
+				L.map((a) => delay500(a * a)),
+				L.filter((a) => delay500(a % 2)),
+				L.map((a) => delay500(a * a)),
+				C.take(3),
+				console.log,
+				(_) => console.timeEnd('2')
+			);
+		</script>
+	</body>
+</html>
