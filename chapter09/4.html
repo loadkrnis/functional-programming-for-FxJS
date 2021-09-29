@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>지연 평가 + Promise의 효율성</title>
+	</head>
+	<body>
+		<script src="./lib/fx.js"></script>
+		<script>
+			go(
+				[1, 2, 3, 4, 5, 6],
+				L.map((a) => {
+					console.log(a);
+					return new Promise((resolve) =>
+						setTimeout(() => resolve(a * a), 1000)
+					);
+				}),
+				takeAll,
+				console.log
+			);
+		</script>
+	</body>
+</html>
