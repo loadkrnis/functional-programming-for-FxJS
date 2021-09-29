@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>지연된 함수열을 병렬적으로 평가하기 - C.reduce, C.take</title>
+	</head>
+	<body>
+		<script src="./lib/fx.js"></script>
+		<script>
+			const C = {};
+			C.reduce = curry((f, acc, iter) =>
+				iter ? reduce(f, acc, [...iter]) : reduce(f, [...acc])
+			);
+
+			// 지연된 함수열을 병렬적으로 평가하기 - C.reduce, C.take
+			const delay500 = (a) => {
+				console.log(a, 'tick');
+				return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+			};
+
+			console.time('1');
+			go(
+				[1, 2, 3, 4, 5],
+				L.map((a) => delay500(a * a)),
+				L.filter((a) => a % 2),
+				C.reduce(add),
+				console.log,
+				(_) => console.timeEnd('1')
+			);
+
+			console.time('2');
+			go(
+				[1, 2, 3, 4, 5],
+				L.map((a) => delay500(a * a)),
+				L.filter((a) => a % 2),
+				reduce(add),
+				console.log,
+				(_) => console.timeEnd('2')
+			);
+		</script>
+	</body>
+</html>
