@@ -64,7 +64,8 @@ L.map = curry(function* (f, iter) {
 
 L.filter = curry(function* (f, iter) {
   for (const a of iter) {
-    if (f(a)) yield a;
+    const b = go1(a, f);
+    if (b) yield a;
   }
 });
 
