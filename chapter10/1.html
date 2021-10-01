@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>async:await</title>
+	</head>
+	<body>
+		<script src="./lib/fx.js"></script>
+		<script>
+			function delay(time) {
+				return new Promise((resolve) => setTimeout(() => resolve(), time));
+			}
+
+			async function delayIndentity(a) {
+				await delay(500);
+				return a;
+			}
+
+			async function f1() {
+				const a = await delayIndentity(10);
+				const b = await delayIndentity(5);
+
+				return a + b;
+			}
+
+			go(f1(), console.log);
+
+			// async 함수의 결과 값은 무조건 Promise로 반환되기 때문에 함수 호출부에서도
+			// .then 또는 async 함수를 사용해야 합니다.
+			// go(), 즉시 즉시실행하는 익명함수도 사용가능합니다.
+		</script>
+	</body>
+</html>
