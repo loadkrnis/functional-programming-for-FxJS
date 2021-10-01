@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			[QnA] Array.prototype.map이 있는데 왜 FxJS의 map 함수가 필요한지?
+		</title>
+	</head>
+	<body>
+		<script src="./lib/fx.js"></script>
+		<script>
+			function delayI(a) {
+				return new Promise((resolve) => setTimeout(() => resolve(a), 100));
+			}
+
+			async function f2() {
+				const list = [1, 2, 3, 4];
+				const res = list.map(async (a) => await delayI(a * a));
+				// promise
+				console.log(res);
+			}
+			f2();
+
+			async function f3() {
+				const list = [1, 2, 3, 4];
+				const res = await map(async (a) => await delayI(a * a), list);
+				// 리터럴 값 리턴
+				console.log(res);
+			}
+			f3();
+
+			// async function의 결과 값은 무조건 Promise 입니다.
+			async function f4() {
+				const list = [1, 2, 3, 4];
+				const res = await map(async (a) => await delayI(a * a), list);
+				// 리터럴 값 리턴
+				return res;
+			}
+			console.log(f4());
+		</script>
+	</body>
+</html>
